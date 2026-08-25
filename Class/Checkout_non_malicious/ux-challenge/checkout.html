@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SustainCart - Secure Checkout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h2>Secure Checkout</h2>
+        </div>
+        <div class="cart-summary">
+            <div class="item-row">
+                <span class="item-title">SDG Eco-friendly Water Bottle</span>
+                <span class="item-price">$24.99</span>
+            </div>
+            <div class="item-row" style="font-size: 0.8rem; color: #868e96;">
+                <span>Subtotal:</span>
+                <span>$24.99</span>
+            </div>
+        </div>
+        <form action="#" method="POST" id="checkout-form">
+            <div class="optional-add-on">
+                <input type="checkbox" name="vip_warranty" id="vip_warranty" style="margin-top: 4px; margin-right: 10px;">
+                <div class="add-on-text">
+                    <label for="vip_warranty" class="add-on-label">Add VIP Carbon-Offset Protection Plan</label>
+                    Optional add-on. Adds <strong>$4.99/month</strong> if selected.
+                </div>
+            </div>
+            <div class="shipping-selector">
+                <span class="shipping-label">Choose Delivery Speed (optional):</span>
+                <div class="shipping-options">
+                    <label class="shipping-box">
+                        <div>
+                            <input type="radio" name="shipping_speed" value="none" style="margin-right: 8px;">
+                            <span>No delivery selected</span>
+                        </div>
+                        <span>$0.00</span>
+                    </label>
+                    <label class="shipping-box">
+                        <div>
+                            <input type="radio" name="shipping_speed" value="standard" style="margin-right: 8px;">
+                            <span>Standard delivery</span>
+                        </div>
+                        <span>$2.99</span>
+                    </label>
+                    <label class="shipping-box">
+                        <div>
+                            <input type="radio" name="shipping_speed" value="express" style="margin-right: 8px;">
+                            <span>Express delivery</span>
+                        </div>
+                        <span>$14.99</span>
+                    </label>
+                </div>
+            </div>
+            <div class="confirmshame-container">
+                <input type="checkbox" name="tree_donation" id="tree_donation">
+                <label for="tree_donation">
+                    Add a $1.00 tree planting donation.
+                </label>
+            </div>
+            <div class="newsletter-optout">
+                <input type="checkbox" name="marketing_opt_in" id="marketing_opt_in">
+                <label for="marketing_opt_in">
+                    I would like to receive updates and promotions.
+                </label>
+            </div>
+            <div class="cancel-notice">
+                You can cancel your VIP protection at any time from your account settings or by contacting customer support.
+            </div>
+
+            <div class="checkout-actions">
+                <button type="submit" class="btn-checkout">
+                    Confirm Order & Pay $24.99
+                </button>
+            </div>
+
+        </form>
+    </div>
+    <script>
+        const form = document.getElementById('checkout-form');
+        const checkoutButton = document.querySelector('.btn-checkout');
+
+        function calculateTotal() {
+            const baseProductPrice = 24.99;
+            const vipChecked = document.getElementById('vip_warranty').checked;
+            const vipPrice = vipChecked ? 4.99 : 0.00;
+            const selectedShippingInput = document.querySelector('input[name="shipping_speed"]:checked');
+            const shippingSpeed = selectedShippingInput ? selectedShippingInput.value : 'none';
+            const shippingPrice = shippingSpeed === 'express' ? 14.99 : shippingSpeed === 'standard' ? 2.99 : 0.00;
+            const treeChecked = document.getElementById('tree_donation').checked;
+            const treePrice = treeChecked ? 1.00 : 0.00;
+            const total = baseProductPrice + vipPrice + shippingPrice + treePrice;
+
+            checkoutButton.textContent = `Confirm Order & Pay $${total.toFixed(2)}`;
+            return total;
+        }
+
+        form.addEventListener('change', calculateTotal);
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const total = calculateTotal();
+            alert('Your order total is $' + total.toFixed(2) + '.\n\nThank you for your purchase.');
+        });
+
+        calculateTotal();
+    </script>
+</body>
+</html>
