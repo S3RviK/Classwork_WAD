@@ -1,0 +1,16 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f3f8f4;
+}
+
+.target-slide {
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card {
+    border: 0;
+    box-shadow: 0 0.25rem 1rem rgba(31, 70, 45, 0.12);
+}

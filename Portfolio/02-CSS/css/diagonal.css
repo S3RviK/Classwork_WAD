@@ -1,0 +1,32 @@
+body {
+    margin: 0;
+}
+
+div {
+    width: 200px;
+    height: 200px;
+    box-sizing: border-box;
+    position: absolute;
+}
+
+.top {
+    background-color: red;
+    border: 10px solid black;
+    padding: 20px;
+    top: 0;
+    left: 0;
+}
+
+.mid {
+    background-color: green;
+    border: 20px solid black;
+    top: 200px;
+    left: 200px;
+}
+
+.bottom {
+    background-color: blue;
+    border: 10px solid black;
+    top: 400px;
+    left: 400px;
+}
