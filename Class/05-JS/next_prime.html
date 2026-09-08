@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<!--
+    Make sure that this exercise meets the organization standards we want for a good project. aka "organization"
+-->
+
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Exercise - Find Next Prime Number</title>
+
+    <script type="text/javascript">
+        function checkPrime() {
+            var id = document.getElementById("num");
+            var number = parseInt(id.value, 10);
+            var maxNum = parseInt(1299827, 10);
+            var result = document.getElementById("result");
+
+            if (number < maxNum && !isNaN(number)) {
+                for (var i = number + 1; i < maxNum; i++) {
+                    if (isPrime(i)) {
+                        result.textContent = "Next prime: " + i;
+                        return;
+                    }
+                }
+                result.textContent = "No next prime found in the range.";
+            } else {
+                window.alert("Please Enter Number Below 1299827 or Enter A Valid Integer");
+                id.value = "";
+                result.textContent = "";
+            }
+        }
+
+        function isPrime(num) {
+            if (num < 2) {
+                return false;
+            }
+            for (var i = 2; i < num; i++) {
+                if (num % i === 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+</head>
+
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <input type="text" id="num" />
+            <button id="btn" onclick="checkPrime(); return false;">
+                Click To Get Next Prime Number</button>
+            <br />
+            <span id="result"></span>
+        </div>
+    </form>
+</body>
+
+</html>

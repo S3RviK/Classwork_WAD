@@ -10,7 +10,7 @@ const cardCounter = document.getElementById('card-counter');
 // ==========================================
 // 2. TODO: PROGRAMMATIC NODE CREATION
 // ==========================================
-const createActionCard = (text, priority) => {
+const createActionCard = (text, priority) => {cxsvf
     // 2a. Create the parent 'li' item
     const li = document.createElement('li');
 
@@ -18,7 +18,14 @@ const createActionCard = (text, priority) => {
     li.className = `list-group-item d-flex justify-content-between align-items-center impact-card priority-${priority}`;
 
     // 2c. Add appropriate priority class ('priority-high', 'priority-medium', 'priority-low')
-
+    if (priority === 'high') {
+        li.classList.add('priority-high');
+    } else if (priority === 'medium') {
+        li.classList.add('priority-medium');
+    } else if (priority === 'low') {
+        li.classList.add('priority-low');
+    }
+    
     // 2d. Construct interior HTML with text nodes, priority badges, action button icons
     // Make sure the action buttons have explicit data-action tags:
     // - Complete button: data-action="toggle"
