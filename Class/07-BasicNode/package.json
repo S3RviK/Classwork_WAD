@@ -1,0 +1,14 @@
+{
+  "name": "class-07-basic-node",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Exercises for Basic Node",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "star-wars-quotes": "^1.0.2",
+    "superheroes": "^4.0.0",
+    "supervillains": "^4.0.0"
+  }
+}

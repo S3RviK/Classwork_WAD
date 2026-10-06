@@ -1,29 +1,34 @@
-// DOM Selectors
 const selector = document.getElementById('scientist-selector');
 const display = document.getElementById('results-display');
 
-// TODO 1: Initialize Stream 1 (Fetch and render Scientist Registry to Dropdown)
 async function fetchScientists() {
     try {
-        // TODO: Use native fetch() to retrieve 'scientists.json'
-        // TODO: Parse the response payload into a JS array
-        // TODO: Map the array into <option> tags and load them inside the 'selector' DOM element
+        const response = await fetch('data/scientists.json');
+        if (!response.ok) {
+            throw new Error(`Unable to load scientist registry (${response.status})`);
+        }
+
+        const scientists = await response.json();
+        selector.innerHTML = '<option value="">-- Select a research director --</option>';
+
+        scientists.forEach((scientist) => {
+            const option = document.createElement('option');
+            option.value = scientist.id;
+            option.textContent = `${scientist.name} — ${scientist.specialty}`;
+            selector.appendChild(option);
+        });
     } catch (error) {
-        console.error("Stream 1 Failed:", error);
-        selector.innerHTML = `<option value="">Error loading scientists</option>`;
+        console.error('Stream 1 Failed:', error);
+        selector.innerHTML = '<option value="">Error loading scientists</option>';
     }
 }
 
-// TODO 2: Initialize Simulated Delayed Fetch (Stream 2 - Promise Wrapper)
-// This function must return a Promise that resolves after a 1000ms delay to simulate network latency.
 function simulateNetworkLag(ms) {
-    // TODO: Return a new Promise resolving via a setTimeout callback
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// TODO 3: Fetch metrics and filter by Scientist ID (Stream 2)
 async function fetchMetricsForScientist(scientistId) {
     try {
-        // Render the loading state first
         display.innerHTML = `
             <div class="d-flex flex-column align-items-center">
                 <div class="spinner-border text-success mb-2" role="status"></div>
@@ -31,32 +36,57 @@ async function fetchMetricsForScientist(scientistId) {
             </div>
         `;
 
-        // TODO: Await the simulated network latency (1000ms) to witness the loading spinner
-        
-        // TODO: Fetch 'metrics.json'
-        
-        // TODO: Filter the fetched metrics array where 'scientistId' matches the input parameter
-        
-        // TODO: Render the final metrics list inside 'display'
-        // Handle the edge case where a selected scientist has 0 logged metrics!
-        
+        await simulateNetworkLag(1000);
+
+        const response = await fetch('data/metrics.json');
+        if (!response.ok) {
+            throw new Error(`Unable to load telemetry (${response.status})`);
+        }
+
+        const metrics = await response.json();
+        const scientistMetrics = metrics.filter((metric) => metric.scientistId === scientistId);
+
+        if (!scientistMetrics.length) {
+            display.innerHTML = `
+                <div class="alert alert-warning mb-0" role="alert">
+                    No climate telemetry logs are available for this research director yet.
+                </div>
+            `;
+            return;
+        }
+
+        display.innerHTML = `
+            <div class="list-group">
+                ${scientistMetrics
+                    .map(
+                        (metric) => `
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>${metric.region}</strong>
+                                    <span class="badge bg-success metric-badge">${metric.offsetTons} tons</span>
+                                </div>
+                                <small class="text-muted">Confidence: ${metric.confidenceIndex}</small>
+                            </div>
+                        `
+                    )
+                    .join('')}
+            </div>
+        `;
     } catch (error) {
-        console.error("Stream 2 Failed:", error);
+        console.error('Stream 2 Failed:', error);
         display.innerHTML = `<div class="alert alert-danger mb-0">Error fetching climate telemetry: ${error.message}</div>`;
     }
 }
 
-// TODO 4: Event Observer (Wiring the Cascading Trigger)
 selector.addEventListener('change', (event) => {
     const selectedId = event.target.value;
-    
+
     if (!selectedId) {
         display.innerHTML = `<p class="text-muted mb-0">Please select a research director from the registry above.</p>`;
         return;
     }
 
-    // TODO: Execute the dependent Stream 2 request
+    fetchMetricsForScientist(selectedId);
 });
 
-// Initialize App on Page Mount
 fetchScientists();
