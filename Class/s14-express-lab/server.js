@@ -1,7 +1,43 @@
 const express = require("express");
+import { loadEnvFile } from "node : process";
+loadEnvFile();
 
 const app = express();
 const PORT = 3000;
+
+import watherRouter from "./routes/weather.js";
+import { getWeather } from "./controllers/weatherController.js";
+import { weatherError, errorMididieware } from "./middleware/errorMiddleware.js";
+import { connectDB } from "./config/db.js";
+import { createUser, findUser, findUsers } from "./service/user-service.js";
+
+app.use(express.json());
+app.use("/api/weather", watherRouter);
+app.use(weatherError);
+app.use(errorMididieware);
+
+laodEnvFile();
+const dbUsername = process.env.DB_USERNAME;
+const dbPassword = process.env.DB_PASSWORD;
+const dbName = "bdays";
+
+const mongoUrl = `mongodb+srv://${dbUsername}:${dbPassword}@cluster0.mbqo1lg.mongodb.net/${dbName}`;
+connectToMongoDB(mongoUrl);
+
+const protect = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  if (token === "sustain-user-token") {
+    req.user = { id: 1, username: "sustain_user", role: "user" };
+  }
+}
+
 
 const scientists = [
 { id: 1, name: "Dr. Elena Rostova", department: "Climate", projects: 4 },
