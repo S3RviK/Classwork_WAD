@@ -3,27 +3,30 @@ Pig Latin
 */
 
 function igpayAtinlay(str) {
-  // TODO: Initialize the word array properly
-  var returnArray = [],
-    wordArray = [];
-  // TODO: make sure that the output is being properly built to produce the desired result.
+  var input = str || "";
+  var wordArray = input.trim().split(/\s+/).filter(Boolean);
+  var returnArray = [];
+
   for (var i = 0; i < wordArray.length; i++) {
     var word = wordArray[i];
-    var beginning = word.charAt(0);
+    var vowelIndex = -1;
 
-    if (/[aeiouAEIOU]/.test(beginning)) {
-      returnArray.push(word);
-      continue;
-    }
-
-    for (var ii = 1; ii < word.length; ii++) {
+    for (var ii = 0; ii < word.length; ii++) {
       if (/[aeiouAEIOU]/.test(word.charAt(ii))) {
+        vowelIndex = ii;
         break;
-      } else {
-        beginning += word.charAt(ii);
       }
     }
+
+    if (vowelIndex === 0) {
+      returnArray.push(word + "way");
+    } else if (vowelIndex === -1) {
+      returnArray.push(word + "ay");
+    } else {
+      returnArray.push(word.slice(vowelIndex) + word.slice(0, vowelIndex) + "ay");
+    }
   }
+
   return returnArray.join(" ");
 }
 

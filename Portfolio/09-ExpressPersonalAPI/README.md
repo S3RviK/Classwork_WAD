@@ -51,3 +51,16 @@ This route will only be accesible via Postman.
 ### ERROR handling
 
 - In the **/greet** endpoint that receives the call for forwarding to _wazzup.html_ check on the index value to see if it is within range. If it is not, using the next parameter, create a new handler that outputs the error message in the index page.
+
+---
+
+### Run the project
+
+Install the dependencies and start the server from this folder:
+
+```bash
+npm install
+npm start
+```
+
+Open `http://localhost:3000`. Names and tasks are kept in memory, so they start empty again when the server restarts. The `GET /task` and `PUT /greet/:name` endpoints can be tested with Postman.

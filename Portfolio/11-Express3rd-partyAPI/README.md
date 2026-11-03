@@ -21,3 +21,17 @@
 ---
 
 - Also make sure that your API can deal with errors coming from the API call.
+
+---
+
+### Run the project
+
+Install the dependencies and set the API key before starting the server:
+
+```bash
+npm install
+export OPENWEATHER_API_KEY="your_api_key"
+npm start
+```
+
+On Windows PowerShell, set the key with `$env:OPENWEATHER_API_KEY="your_api_key"`. Then open `http://localhost:3000` and enter a city.

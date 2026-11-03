@@ -46,7 +46,7 @@ function component(width, height, color, x, y, type) {
   this.y = y;
   // Declaration of function update
   this.update = function () {
-    ctx = myGameArea.context;
+    var ctx = myGameArea.context;
     // Option to draw the component as an image or as a square with a color
     if (type == "image") {
       ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
@@ -61,11 +61,13 @@ function component(width, height, color, x, y, type) {
     this.x += this.speedX;
     this.y += this.speedY;
     if (this.type == "image") {
-      if (this.x >= canvasWidth - this.width / 2 || this.x <= 0) {
-        //TODO: make the image bounce back when reaching the edges
+      if (this.x <= 0 || this.x >= canvasWidth - this.width) {
+        this.speedX *= -1;
+        this.x = Math.max(0, Math.min(this.x, canvasWidth - this.width));
       }
-      if (this.y >= canvasHeight - this.height / 2 || this.y <= 0) {
-        //TODO: make the image bounce back when reaching the edges
+      if (this.y <= 0 || this.y >= canvasHeight - this.height) {
+        this.speedY *= -1;
+        this.y = Math.max(0, Math.min(this.y, canvasHeight - this.height));
       }
     }
   };
@@ -84,11 +86,11 @@ function moveup() {
 }
 
 function movedown() {
-  //TODO: implement the move down functionality
+  myGamePiece.speedY += 1;
 }
 
 function moveleft() {
-  //TODO: implement the move left functionality
+  myGamePiece.speedX -= 1;
 }
 
 function moveright() {
