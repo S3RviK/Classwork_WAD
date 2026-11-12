@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>F1 DB</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <img src="/images/StarLion.png" alt="StarLion logo" />
+      <h1>Welcome to my F1 DB</h1>
+    </header>
+
+    <main class="container">
+      <section class="panel">
+        <h2>Driver information</h2>
+
+        <form action="/driver" method="POST" class="driver-form">
+          <input type="hidden" name="driverId" value="<%= editingDriver && editingDriver._id ? editingDriver._id : '' %>" />
+
+          <div class="row">
+            <label>
+              <span>Number</span>
+              <input type="number" name="num" value="<%= editingDriver && editingDriver.num !== undefined ? editingDriver.num : '' %>" required />
+            </label>
+
+            <label>
+              <span>Code</span>
+              <input type="text" name="code" maxlength="3" value="<%= editingDriver && editingDriver.code ? editingDriver.code : '' %>" required />
+            </label>
+          </div>
+
+          <div class="row">
+            <label>
+              <span>Name</span>
+              <input type="text" name="forename" value="<%= editingDriver && editingDriver.forename ? editingDriver.forename : '' %>" required />
+            </label>
+
+            <label>
+              <span>Last name</span>
+              <input type="text" name="surname" value="<%= editingDriver && editingDriver.surname ? editingDriver.surname : '' %>" required />
+            </label>
+          </div>
+
+          <div class="row">
+            <label>
+              <span>Date of birth</span>
+              <input type="date" name="dob" value="<%= editingDriver && editingDriver.dob ? new Date(editingDriver.dob).toISOString().slice(0,10) : '' %>" />
+            </label>
+
+            <label>
+              <span>Biography URL</span>
+              <input type="url" name="url" value="<%= editingDriver && editingDriver.url ? editingDriver.url : '' %>" />
+            </label>
+          </div>
+
+          <div class="row">
+            <label>
+              <span>Nationality</span>
+              <select name="nationality">
+                <% nationalities.forEach((nationality) => { %>
+                  <option value="<%= nationality %>" <%= editingDriver && editingDriver.nationality === nationality ? 'selected' : '' %>><%= nationality %></option>
+                <% }) %>
+              </select>
+            </label>
+
+            <label>
+              <span>Team</span>
+              <select name="teamName">
+                <% teams.forEach((team) => { %>
+                  <option value="<%= team.name %>" <%= editingDriver && editingDriver.team && editingDriver.team.name === team.name ? 'selected' : '' %>><%= team.name %></option>
+                <% }) %>
+              </select>
+            </label>
+          </div>
+
+          <div class="button-row">
+            <button type="submit" class="primary-button">
+              <%= editingDriver ? 'Save changes' : 'Add driver' %>
+            </button>
+            <% if (editingDriver) { %>
+              <a href="/" class="secondary-button">Cancel</a>
+            <% } %>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="list-header">
+          <h2>Database records</h2>
+
+          <div class="toggle-group" aria-label="Toggle list view">
+            <a href="/?view=drivers" class="toggle-button <%= viewMode === 'drivers' ? 'active' : '' %>">Drivers</a>
+            <a href="/?view=teams" class="toggle-button <%= viewMode === 'teams' ? 'active' : '' %>">Teams</a>
+          </div>
+        </div>
+
+        <% if (viewMode === 'teams') { %>
+          <div class="record-list">
+            <% teams.forEach((team) => { %>
+              <article class="record-item">
+                <div>
+                  <h3><%= team.name %></h3>
+                  <p><strong>Nationality:</strong> <%= team.nationality || 'N/A' %></p>
+                  <p><strong>URL:</strong> <%= team.url || 'Not available' %></p>
+                </div>
+              </article>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <div class="record-list">
+            <% drivers.forEach((driver) => { %>
+              <article class="record-item">
+                <div>
+                  <h3><%= driver.forename %> <%= driver.surname %></h3>
+                  <p><strong>Number:</strong> <%= driver.num || 'N/A' %></p>
+                  <p><strong>Code:</strong> <%= driver.code || 'N/A' %></p>
+                  <p><strong>Team:</strong> <%= driver.team && driver.team.name ? driver.team.name : 'N/A' %></p>
+                  <p><strong>Nationality:</strong> <%= driver.nationality || 'N/A' %></p>
+                </div>
+                <a href="/driver/<%= driver._id %>/edit?view=drivers" class="mini-button">Edit</a>
+              </article>
+            <% }) %>
+          </div>
+        <% } %>
+      </section>
+    </main>
+  </body>
+</html>
