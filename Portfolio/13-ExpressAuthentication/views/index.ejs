@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Iniciar sesión | Middle-Earth</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <main class="page">
+        <img class="logo" src="/images/StarLion.png" alt="Logo de StarLion">
+        <h1>Bienvenido a Middle-Earth</h1>
+        <p class="intro">Inicia sesión o crea una cuenta para acceder a la página secreta.</p>
+
+        <% if (message) { %>
+            <p class="message" role="alert"><%= message %></p>
+        <% } %>
+
+        <div class="forms">
+            <section class="card">
+                <h2>Iniciar sesión</h2>
+                <form action="/login" method="post">
+                    <label for="login-username">Usuario</label>
+                    <input id="login-username" name="username" type="text" autocomplete="username" required>
+
+                    <label for="login-password">Contraseña</label>
+                    <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+
+                    <button type="submit">Entrar</button>
+                </form>
+                <% if (googleConfigured) { %>
+                    <a class="google-link" href="/auth/google">Continuar con Google</a>
+                <% } %>
+            </section>
+
+            <section class="card">
+                <h2>Crear cuenta</h2>
+                <form action="/register" method="post">
+                    <label for="register-username">Usuario</label>
+                    <input id="register-username" name="username" type="text" autocomplete="username" required>
+
+                    <label for="register-email">Correo electrónico</label>
+                    <input id="register-email" name="email" type="email" autocomplete="email" required>
+
+                    <label for="register-password">Contraseña</label>
+                    <input id="register-password" name="password" type="password" autocomplete="new-password" minlength="6" required>
+
+                    <button type="submit">Registrarme</button>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

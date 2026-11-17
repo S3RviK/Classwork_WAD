@@ -1,5 +1,18 @@
 # Express Authentication, Cookies & Session
 
+## Ejecutar la aplicación
+
+1. Instala MongoDB y asegúrate de que esté activo.
+2. En esta carpeta, instala las dependencias con `npm install`.
+3. Copia `.env.example` como `.env` y cambia `SESSION_SECRET` por una frase larga y privada.
+4. Ejecuta `npm start` y abre `http://localhost:3000`.
+
+El registro y el inicio de sesión usan Passport Local. Las contraseñas se guardan como hash mediante `passport-local-mongoose`; no se almacenan en texto plano. La página `/secrets` requiere una sesión válida. Cada usuario puede guardar y ver sus propios secretos.
+
+El acceso con Google es opcional: configura `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` en `.env`. En Google Cloud Console agrega `http://localhost:3000` como origen autorizado y `http://localhost:3000/auth/google/secrets` como URI de redirección. Sin esas credenciales, el resto de la aplicación funciona normalmente.
+
+La cookie `welcome` es firmada y se elimina al cerrar sesión. La cookie `lotr.sid` contiene la sesión de Passport.
+
 - Using the provided code, crete an app with:
   - A simple registration form that asks the user for a username, email and password.
   - Using **passport-local-mongoose** save the information in our database and set the **session** information
